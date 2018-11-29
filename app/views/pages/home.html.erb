@@ -1,2 +1,13 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container mb-5">
+  <div class="row">
+    <div class="<%= columns %> pt-5">
+      <%= render 'pages/write' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="<%= columns %> pt-5">
+      <%= render 'pages/feed' %>
+    </div>
+  </div>
+</div>

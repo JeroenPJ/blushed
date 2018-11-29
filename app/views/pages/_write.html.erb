@@ -1,0 +1,34 @@
+<%= simple_form_for @message, remote: true do |f| %>
+  <%= f.input_field :body, class: 'body autosize petal mb-2', rows: 2 %>
+  <%= f.button :submit, "Blush", disabled: true, class: 'blush align-right button' %>
+<% end %>
+
+<% content_for(:after_js) do %>
+  <script>
+    const form = document.getElementById('new_message')
+    const messageBody = form.querySelector('.body')
+    const submit = form.querySelector('.blush')
+    const feed = document.getElementById('feed')
+
+    form.addEventListener('ajax:success', function(event) {
+      const data = event.detail[0]
+      if (data.created) {
+        messageBody.value = ""
+        feed.insertAdjacentHTML('afterbegin', data.html)
+      }
+    })
+
+    const validate = (event) => {
+      const value = event.currentTarget.value;
+      if (value.length > 10 && value.length < 1000) {
+        submit.removeAttribute("disabled")
+      } else {
+        submit.setAttribute("disabled", true)
+      }
+    }
+
+    ['keyup', 'change', 'paste'].forEach((event) => {
+      messageBody.addEventListener(event, validate)
+    })
+  </script>
+<% end %>
